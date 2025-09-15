@@ -27,8 +27,6 @@ PanelWindow {
         bottom: true
     }
 
-    // Modes
-    // TODO: Ask: sidebar AI
     enum SnipAction { Copy, Edit, Search, CharRecognition, Record, RecordWithSound } 
     enum SelectionMode { RectCorners, Circle }
     enum Phase { Select, Post }
