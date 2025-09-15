@@ -40,12 +40,6 @@ Item { // Wrapper
             }
         },
         {
-            action: "konachanwallpaper",
-            execute: () => {
-                Quickshell.execDetached([Quickshell.shellPath("scripts/colors/random/random_konachan_wall.sh")]);
-            }
-        },
-        {
             action: "light",
             execute: () => {
                 Quickshell.execDetached([Directories.wallpaperSwitchScriptPath, "--mode", "light", "--noswitch"]);
@@ -110,12 +104,6 @@ Item { // Wrapper
     function setSearchingText(text) {
         searchBar.searchInput.text = text;
         root.searchingText = text;
-    }
-
-    function containsUnsafeLink(entry) {
-        if (entry == undefined) return false;
-        const unsafeKeywords = Config.options.workSafety.triggerCondition.linkKeywords;
-        return StringUtils.stringListContainsSubstring(entry.toLowerCase(), unsafeKeywords);
     }
 
     Timer {
@@ -296,12 +284,6 @@ Item { // Wrapper
                             // Clipboard
                             const searchString = StringUtils.cleanPrefix(root.searchingText, Config.options.search.prefix.clipboard);
                             return Cliphist.fuzzyQuery(searchString).map((entry, index, array) => {
-                                const mightBlurImage = Cliphist.entryIsImage(entry) && root.clipboardWorkSafetyActive;
-                                let shouldBlurImage = mightBlurImage;
-                                if (mightBlurImage) {
-                                    shouldBlurImage = shouldBlurImage && (containsUnsafeLink(array[index - 1]) || containsUnsafeLink(array[index + 1]));
-                                }
-                                const type = `#${entry.match(/^\s*(\S+)/)?.[1] || ""}`
                                 return {
                                     key: type,
                                     cliphistRawString: entry,
@@ -326,9 +308,7 @@ Item { // Wrapper
                                                 Cliphist.deleteEntry(entry);
                                             }
                                         }
-                                    ],
-                                    blurImage: shouldBlurImage,
-                                    blurImageText: Translation.tr("Work safety")
+                                    ]
                                 };
                             }).filter(Boolean);
                         }
