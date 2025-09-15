@@ -13,7 +13,6 @@ Item {
     required property var scopeRoot
     anchors.fill: parent
     property var tabButtonList: [
-        ...(Config.options.policies.ai !== 0 ? [{"icon": "neurology", "name": Translation.tr("Intelligence")}] : []),
         {"icon": "translate", "name": Translation.tr("Translator")},
     ]
     property int selectedTab: 0
@@ -82,15 +81,10 @@ Item {
             }
 
             contentChildren: [
-                ...(Config.options.policies.ai !== 0 ? [aiChat.createObject()] : []),
                 translator.createObject(),
             ]
         }
 
-        Component {
-            id: aiChat
-            AiChat {}
-        }
         Component {
             id: translator
             Translator {}
