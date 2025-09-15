@@ -12,10 +12,8 @@ Item {
     required property var scopeRoot
     property int sidebarPadding: 10
     anchors.fill: parent
-    property bool aiChatEnabled: Config.options.policies.ai !== 0
     property bool translatorEnabled: Config.options.sidebar.translator.enable
     property var tabButtonList: [
-        ...(root.aiChatEnabled ? [{"icon": "neurology", "name": Translation.tr("Intelligence")}] : []),
         ...(root.translatorEnabled ? [{"icon": "translate", "name": Translation.tr("Translator")}] : [])
     ]
     property int tabCount: swipeView.count
@@ -80,16 +78,11 @@ Item {
                 }
 
                 contentChildren: [
-                    ...((root.aiChatEnabled || !root.translatorEnabled) ? [aiChat.createObject()] : []),
                     ...(root.translatorEnabled ? [translator.createObject()] : [])
                 ]
             }
         }
 
-        Component {
-            id: aiChat
-            AiChat {}
-        }
         Component {
             id: translator
             Translator {}
