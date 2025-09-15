@@ -312,43 +312,6 @@ ApplicationWindow {
                 }
 
                 ContentSection {
-                    icon: "rule"
-                    title: Translation.tr("Policies")
-
-                    ConfigRow {
-                        Layout.fillWidth: true
-
-                        ContentSubsection {
-                            title: "AI"
-
-                            ConfigSelectionArray {
-                                currentValue: Config.options.policies.ai
-                                onSelected: newValue => {
-                                    Config.options.policies.ai = newValue;
-                                }
-                                options: [
-                                    {
-                                        displayName: Translation.tr("No"),
-                                        icon: "close",
-                                        value: 0
-                                    },
-                                    {
-                                        displayName: Translation.tr("Yes"),
-                                        icon: "check",
-                                        value: 1
-                                    },
-                                    {
-                                        displayName: Translation.tr("Local only"),
-                                        icon: "sync_saved_locally",
-                                        value: 2
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-
-                ContentSection {
                     icon: "info"
                     title: Translation.tr("Info")
 
