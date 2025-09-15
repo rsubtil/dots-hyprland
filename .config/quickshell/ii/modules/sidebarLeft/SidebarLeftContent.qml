@@ -15,7 +15,6 @@ Item {
     property var tabButtonList: [
         ...(Config.options.policies.ai !== 0 ? [{"icon": "neurology", "name": Translation.tr("Intelligence")}] : []),
         {"icon": "translate", "name": Translation.tr("Translator")},
-        ...(Config.options.policies.weeb === 1 ? [{"icon": "bookmark_heart", "name": Translation.tr("Anime")}] : [])
     ]
     property int selectedTab: 0
 
@@ -85,7 +84,6 @@ Item {
             contentChildren: [
                 ...(Config.options.policies.ai !== 0 ? [aiChat.createObject()] : []),
                 translator.createObject(),
-                ...(Config.options.policies.weeb === 0 ? [] : [anime.createObject()])
             ]
         }
 
@@ -96,10 +94,6 @@ Item {
         Component {
             id: translator
             Translator {}
-        }
-        Component {
-            id: anime
-            Anime {}
         }
         
     }
