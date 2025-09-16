@@ -18,10 +18,10 @@ Scope { // Scope
             "icon": "keyboard",
             "name": Translation.tr("Keybinds")
         },
-        {
-            "icon": "experiment",
-            "name": Translation.tr("Elements")
-        },
+        // {
+            // "icon": "experiment",
+            // "name": Translation.tr("Elements")
+        // },
     ]
     property int selectedTab: 0
 
@@ -184,7 +184,7 @@ Scope { // Scope
                         }
 
                         CheatsheetKeybinds {}
-                        CheatsheetPeriodicTable {}
+                        //CheatsheetPeriodicTable {}
                     }
                 }
             }
