@@ -87,7 +87,7 @@ MouseArea { // Notification group area
         onClicked: (mouse) => {
             if (mouse.button === Qt.RightButton) 
                 root.toggleExpanded();
-            else if (mouse.button === Qt.MiddleButton) 
+            else if (mouse.button === Qt.MiddleButton || (popup && mouse.button === Qt.LeftButton)) 
                 root.destroyWithAnimation();
         }
 
