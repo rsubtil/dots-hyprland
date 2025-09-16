@@ -92,7 +92,7 @@ MouseArea { // Notification group area
         }
 
         onClicked: (mouse) => {
-            if (mouse.button === Qt.MiddleButton) 
+            if (mouse.button === Qt.MiddleButton || (popup && mouse.button === Qt.LeftButton)) 
                 root.destroyWithAnimation();
         }
 
