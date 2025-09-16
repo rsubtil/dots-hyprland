@@ -73,7 +73,7 @@ Scope { // Scope
 
                 Keys.onPressed: (event) => { // Esc to close
                     if (event.key === Qt.Key_Escape) {
-                        oskRoot.hide()
+                        GlobalStates.oskOpen = !GlobalStates.oskOpen
                     }
                 }
 
@@ -82,6 +82,9 @@ Scope { // Scope
                     anchors.centerIn: parent
                     spacing: 5
                     VerticalButtonGroup {
+                        OskControlButton { // Switch layout button
+                            buttonText: oskContent.currentLayout.name_short
+                        }
                         OskControlButton { // Pin button
                             toggled: root.pinned
                             downAction: () => root.pinned = !root.pinned
@@ -92,9 +95,9 @@ Scope { // Scope
                                 color: root.pinned ? Appearance.m3colors.m3onPrimary : Appearance.colors.colOnLayer0
                             }
                         }
-                        OskControlButton {
+                        OskControlButton { // Hide keyboard
                             onClicked: () => {
-                                oskRoot.hide()
+                                GlobalStates.oskOpen = !GlobalStates.oskOpen
                             }
                             contentItem: MaterialSymbol {
                                 horizontalAlignment: Text.AlignHCenter
