@@ -15,8 +15,8 @@ RippleButton {
     property bool isShift: Ydotool.shiftKeys.includes(keycode)
     property bool isBackspace: (key.toLowerCase() == "backspace")
     property bool isEnter: (key.toLowerCase() == "enter" || key.toLowerCase() == "return")
-    property real baseWidth: 45
-    property real baseHeight: 45
+    property real baseWidth: 60
+    property real baseHeight: 60
     property var widthMultiplier: ({
         "normal": 1,
         "fn": 1,
@@ -110,7 +110,7 @@ RippleButton {
         font.family: (isBackspace || isEnter) ? Appearance.font.family.iconMaterial : Appearance.font.family.main
         font.pixelSize: root.shape == "fn" ? Appearance.font.pixelSize.small : 
             (isBackspace || isEnter) ? Appearance.font.pixelSize.huge :
-            Appearance.font.pixelSize.large
+            Appearance.font.pixelSize.huge
         horizontalAlignment: Text.AlignHCenter
         color: root.toggled ? Appearance.m3colors.m3onPrimary : Appearance.colors.colOnLayer1
         text: root.isBackspace ? "backspace" : root.isEnter ? "subdirectory_arrow_left" :
