@@ -74,6 +74,23 @@ StyledPopup {
             spacing: 8
 
             ResourceHeaderItem {
+                icon: "planner_review"
+                label: "CPU"
+            }
+            ColumnLayout {
+                ResourceItem {
+                    icon: "bolt"
+                    label: Translation.tr("Load:")
+                    value: (ResourceUsage.cpuUsage > 0.8 ? Translation.tr("High") : ResourceUsage.cpuUsage > 0.4 ? Translation.tr("Medium") : Translation.tr("Low")) + ` (${Math.round(ResourceUsage.cpuUsage * 100)}%)`
+                }
+            }
+        }
+
+        ColumnLayout {
+            Layout.alignment: Qt.AlignTop
+            spacing: 8
+
+            ResourceHeaderItem {
                 icon: "memory"
                 label: "RAM"
             }
@@ -122,24 +139,6 @@ StyledPopup {
                     icon: "empty_dashboard"
                     label: Translation.tr("Total:")
                     value: formatKB(ResourceUsage.swapTotal)
-                }
-            }
-        }
-
-        Column {
-            anchors.top: parent.top
-            spacing: 8
-
-            ResourceHeaderItem {
-                icon: "planner_review"
-                label: "CPU"
-            }
-            Column {
-                spacing: 4
-                ResourceItem {
-                    icon: "bolt"
-                    label: Translation.tr("Load:")
-                    value: (ResourceUsage.cpuUsage > 0.8 ? Translation.tr("High") : ResourceUsage.cpuUsage > 0.4 ? Translation.tr("Medium") : Translation.tr("Low")) + ` (${Math.round(ResourceUsage.cpuUsage * 100)}%)`
                 }
             }
         }
