@@ -113,34 +113,5 @@ StyledPopup {
                 }
             }
         }
-
-        Column {
-            visible: ResourceUsage.swapTotal > 0
-            anchors.top: parent.top
-            spacing: 8
-
-            ResourceHeaderItem {
-                icon: "swap_horiz"
-                label: "Swap"
-            }
-            Column {
-                spacing: 4
-                ResourceItem {
-                    icon: "clock_loader_60"
-                    label: Translation.tr("Used:")
-                    value: formatKB(ResourceUsage.swapUsed)
-                }
-                ResourceItem {
-                    icon: "check_circle"
-                    label: Translation.tr("Free:")
-                    value: formatKB(ResourceUsage.swapFree)
-                }
-                ResourceItem {
-                    icon: "empty_dashboard"
-                    label: Translation.tr("Total:")
-                    value: formatKB(ResourceUsage.swapTotal)
-                }
-            }
-        }
     }
 }
