@@ -46,7 +46,7 @@ MouseArea { // Notification group area
             Notifications.cancelTimeout(notif.notificationId);
         });
         else root.notifications.forEach(notif => {
-            Notifications.timeoutNotification(notif.notificationId);
+            Notifications.restartTimeout(notif.notificationId);
         });
     }
 
