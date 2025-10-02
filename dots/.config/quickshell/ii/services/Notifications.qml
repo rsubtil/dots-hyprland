@@ -220,6 +220,12 @@ Singleton {
             root.list[index].timer.stop();
     }
 
+    function restartTimeout(id) {
+        const index = root.list.findIndex((notif) => notif.notificationId === id);
+        if (root.list[index] != null)
+            root.list[index].timer.restart();
+    }
+
     function timeoutNotification(id) {
         const index = root.list.findIndex((notif) => notif.notificationId === id);
         if (root.list[index] != null)
