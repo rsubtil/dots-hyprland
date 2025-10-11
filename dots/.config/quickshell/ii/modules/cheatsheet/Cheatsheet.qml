@@ -18,10 +18,6 @@ Scope { // Scope
             "icon": "keyboard",
             "name": Translation.tr("Keybinds")
         },
-        {
-            "icon": "experiment",
-            "name": Translation.tr("Elements")
-        },
     ]
 
     Loader {
@@ -162,7 +158,6 @@ Scope { // Scope
                         }
 
                         CheatsheetKeybinds {}
-                        CheatsheetPeriodicTable {}
                     }
                 }
             }
