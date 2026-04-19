@@ -564,7 +564,7 @@ Singleton {
                     property bool clipboard: false
                 }
                 property JsonObject triggerCondition: JsonObject {
-                    property list<string> networkNameKeywords: ["airport", "cafe", "college", "company", "eduroam", "free", "guest", "public", "school", "university"]
+                    property list<string> networkNameKeywords: ["airport", "cafe", "college", "company", "free", "guest", "public", "school", "university"]
                 }
             }
 
