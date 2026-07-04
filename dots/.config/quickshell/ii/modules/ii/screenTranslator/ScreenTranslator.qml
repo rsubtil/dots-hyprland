@@ -12,31 +12,28 @@ Scope {
         GlobalStates.screenTranslatorOpen = false
     }
 
-    readonly property var currentScreen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name) ?? null
-    
-    Loader {
-        id: translatorLoader
-        property var lockedScreen
-        active: false
-        Connections {
-            target: GlobalStates
-            function onScreenTranslatorOpenChanged() {
-                if (!GlobalStates.screenTranslatorOpen) {
-                    translatorLoader.active = false;
-                } else {
-                    translatorLoader.lockedScreen = root.currentScreen
-                    translatorLoader.active = true
-                }
-            }
-        }
+    property string lockedScreenName: ""
+    readonly property string currentScreenName: Hyprland.focusedMonitor?.name ?? (Quickshell.screens[0]?.name ?? "")
 
-        sourceComponent: ScreenTranslatorPanel {
-            screen: translatorLoader.lockedScreen
-            onDismiss: root.dismiss()
+    Variants {
+        model: Quickshell.screens
+        delegate: Loader {
+            id: translatorLoader
+            required property var modelData
+            active: GlobalStates.screenTranslatorOpen && modelData?.name === root.lockedScreenName
+
+            sourceComponent: ScreenTranslatorPanel {
+                screen: translatorLoader.modelData
+                onDismiss: root.dismiss()
+            }
         }
     }
 
     function translate() {
+        root.lockedScreenName = root.currentScreenName
+        if (!root.lockedScreenName) return;
+
+        if (GlobalStates.screenTranslatorOpen) GlobalStates.screenTranslatorOpen = false;
         GlobalStates.screenTranslatorOpen = true
     }
 

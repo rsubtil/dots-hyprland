@@ -22,7 +22,9 @@ Scope {
         exclusiveZone: 0
         implicitWidth: sidebarWidth
         WlrLayershell.namespace: "quickshell:sidebarRight"
-        WlrLayershell.keyboardFocus: GlobalStates.sidebarRightOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.keyboardFocus: GlobalStates.sidebarRightOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+        exclusionMode: ExclusionMode.Ignore
         color: "transparent"
 
         anchors {
@@ -31,17 +33,27 @@ Scope {
             bottom: true
         }
 
-        onVisibleChanged: {
-            if (visible) {
-                GlobalFocusGrab.addDismissable(panelWindow);
-            } else {
-                GlobalFocusGrab.removeDismissable(panelWindow);
+        HyprlandFocusGrab {
+            id: grab
+            windows: [panelWindow]
+            active: false
+            onCleared: () => {
+                if (!active) panelWindow.hide();
             }
         }
+
         Connections {
-            target: GlobalFocusGrab
-            function onDismissed() {
-                panelWindow.hide();
+            target: GlobalStates
+            function onSidebarRightOpenChanged() {
+                delayedGrabTimer.restart();
+            }
+        }
+
+        Timer {
+            id: delayedGrabTimer
+            interval: Appearance.animation.elementMoveFast.duration
+            onTriggered: {
+                grab.active = GlobalStates.sidebarRightOpen;
             }
         }
 
