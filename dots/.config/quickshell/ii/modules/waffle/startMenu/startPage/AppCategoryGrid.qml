@@ -13,11 +13,22 @@ import qs.modules.waffle.looks
 Rectangle {
     id: root
     property AggregatedAppCategoryModel aggregatedCategory
-    property list<DesktopEntry> desktopEntries: [...DesktopEntries.applications.values.filter(app => {
-        const appCategories = app.categories;
+    property list<DesktopEntry> desktopEntries: {
+        const _mode = AppsConfig.customMode;
+        const _hidden = AppsConfig.hidden;
+        const _renamed = AppsConfig.renamed;
         const gridCategories = root.aggregatedCategory.categories;
-        return appCategories.some(cat => gridCategories.indexOf(cat) !== -1);
-    })].sort((a, b) => a.name.localeCompare(b.name));
+        return [...DesktopEntries.applications.values.filter(app => {
+            const appCategories = app.categories;
+            const inCategory = appCategories.some(cat => gridCategories.indexOf(cat) !== -1);
+            const visibleByConfig = !_mode || _hidden.indexOf(app.id) === -1;
+            return inCategory && visibleByConfig;
+        })].sort((a, b) => {
+            const na = AppsConfig.resolveName(a.id, a.name).toLowerCase();
+            const nb = AppsConfig.resolveName(b.id, b.name).toLowerCase();
+            return na.localeCompare(nb);
+        });
+    }
 
     property Item windowRootItem: {
         var item = root;
@@ -299,7 +310,10 @@ Rectangle {
         }
 
         WToolTip {
-            text: smallGridAppButton.desktopEntry.name
+            text: {
+                const _renamed = AppsConfig.renamed;
+                return AppsConfig.resolveName(smallGridAppButton.desktopEntry.id, smallGridAppButton.desktopEntry.name);
+            }
         }
 
         altAction: () => {

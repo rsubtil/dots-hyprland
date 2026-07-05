@@ -164,6 +164,13 @@ Singleton {
         if (root.query == "")
             return [];
 
+        // Explicit dependencies so results recompute when app visibility/rename settings change.
+        const _appsConfigDeps = [
+            AppsConfig.customMode,
+            AppsConfig.hidden,
+            AppsConfig.renamed,
+        ];
+
         ///////////// Special cases ///////////////
         if (root.query.startsWith(Config.options.search.prefix.clipboard)) {
             // Clipboard
@@ -237,7 +244,7 @@ Singleton {
             return resultComp.createObject(null, {
                 type: Translation.tr("App"),
                 id: entry.id,
-                name: entry.name,
+                name: AppsConfig.resolveName(entry.id, entry.name),
                 iconName: entry.icon,
                 iconType: LauncherSearchResult.IconType.System,
                 verb: Translation.tr("Open"),

@@ -40,18 +40,33 @@ Singleton {
         }
     ]
 
-    // Deduped list to fix double icons
-    readonly property list<DesktopEntry> list: Array.from(DesktopEntries.applications.values)
-        .filter((app, index, self) => 
-            index === self.findIndex((t) => (
-                t.id === app.id
-            ))
-    )
-    
-    readonly property var preppedNames: list.map(a => ({
-        name: Fuzzy.prepare(`${a.name} `),
-        entry: a
-    }))
+    // Deduped list to fix double icons (linear pass for faster startup).
+    readonly property list<DesktopEntry> list: {
+        const seen = new Set();
+        const deduped = [];
+        for (const app of DesktopEntries.applications.values) {
+            if (seen.has(app.id))
+                continue;
+            seen.add(app.id);
+            deduped.push(app);
+        }
+        return deduped;
+    }
+
+    // Filtered list respecting AppsConfig hide rules
+    readonly property var filteredList: {
+        const _mode = AppsConfig.customMode;
+        const _hidden = AppsConfig.hidden;
+        return _mode ? list.filter(app => _hidden.indexOf(app.id) === -1) : list;
+    }
+
+    readonly property var preppedNames: {
+        const _renamed = AppsConfig.renamed;
+        return filteredList.map(a => ({
+            name: Fuzzy.prepare(`${AppsConfig.resolveName(a.id, a.name)} `),
+            entry: a
+        }));
+    }
 
     readonly property var preppedIcons: list.map(a => ({
         name: Fuzzy.prepare(`${a.icon} `),
@@ -60,9 +75,9 @@ Singleton {
 
     function fuzzyQuery(search: string): var { // Idk why list<DesktopEntry> doesn't work
         if (root.sloppySearch) {
-            const results = list.map(obj => ({
+            const results = filteredList.map(obj => ({
                 entry: obj,
-                score: Levendist.computeScore(obj.name.toLowerCase(), search.toLowerCase())
+                score: Levendist.computeScore(AppsConfig.resolveName(obj.id, obj.name).toLowerCase(), search.toLowerCase())
             })).filter(item => item.score > root.scoreThreshold)
                 .sort((a, b) => b.score - a.score)
             return results

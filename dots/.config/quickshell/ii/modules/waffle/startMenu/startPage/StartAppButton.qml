@@ -36,7 +36,10 @@ WButton {
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
-            text: root.desktopEntry.name
+            text: {
+                const _renamed = AppsConfig.renamed;
+                return AppsConfig.resolveName(root.desktopEntry.id, root.desktopEntry.name);
+            }
             wrapMode: Text.Wrap
             elide: Text.ElideRight
             maximumLineCount: 2
@@ -45,7 +48,10 @@ WButton {
         }
     }
     WToolTip {
-        text: root.desktopEntry.name
+        text: {
+            const _renamed = AppsConfig.renamed;
+            return AppsConfig.resolveName(root.desktopEntry.id, root.desktopEntry.name);
+        }
     }
 
     altAction: () => {
